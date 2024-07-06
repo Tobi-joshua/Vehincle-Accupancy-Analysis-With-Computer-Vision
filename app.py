@@ -4,6 +4,10 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+# Create 'uploads' directory if it doesn't exist
+if not os.path.exists('uploads'):
+    os.makedirs('uploads')
+
 # Load YOLO model
 net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
 layer_names = net.getLayerNames()
@@ -90,18 +94,18 @@ def generate_report():
     return df
 
 # Streamlit interface
-st.title("Vehicle Occupancy Analysis")
+st.title("Vehicle Occupancy Analysis 🚗📊")
 
 uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi"])
 
 if uploaded_file is not None:
-    with open(os.path.join("uploads", uploaded_file.name), "wb") as f:
+    video_path = os.path.join("uploads", uploaded_file.name)
+    with open(video_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
 
-    st.video(uploaded_file)
+    st.video(video_path)
 
     if st.button("Process Video"):
-        video_path = os.path.join("uploads", uploaded_file.name)
         process_video(video_path)
         df = generate_report()
 
@@ -109,7 +113,7 @@ if uploaded_file is not None:
 
         csv = df.to_csv(index=False).encode('utf-8')
         st.download_button(
-            label="Download CSV",
+            label="Download CSV 📥",
             data=csv,
             file_name='occupancy_report.csv',
             mime='text/csv',
