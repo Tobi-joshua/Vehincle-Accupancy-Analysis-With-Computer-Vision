@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import streamlit as st
+from datetime import date
 
 # Create 'uploads' directory if it doesn't exist
 if not os.path.exists('uploads'):
@@ -95,6 +96,15 @@ def generate_report():
 
 # Streamlit interface
 st.title("Vehicle Occupancy Analysis 🚗📊")
+
+# Footer with your name and current date
+footer = """
+<footer style="position: fixed; left: 0; bottom: 0; width: 100%; background-color: #f0f0f0; text-align: center; padding: 10px;">
+    <p>Done by Joshua Samuel | {}</p>
+</footer>
+""".format(date.today().strftime("%B %d, %Y"))
+
+st.markdown(footer, unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi"])
 
