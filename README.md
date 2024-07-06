@@ -23,12 +23,10 @@ Generates detailed reports including vehicle IDs, entry times, exit times, and o
 # Installation
 ## Clone the repository:
 - git clone https://github.com/yourusername/Vehincle-Accupancy-Analysis-With-Computer-Vision.git
-- 
 - cd Vehincle-Accupancy-Analysis-With-Computer-Vision
 
 ##Install dependencies:
 -pip install -r requirements.txt
--
 -Run the Streamlit application:
 
 streamlit run app.py
