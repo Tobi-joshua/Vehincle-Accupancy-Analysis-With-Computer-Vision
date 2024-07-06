@@ -5,11 +5,20 @@ This repository contains code for a Streamlit-based application using OpenCV for
 
 # Features
 
-## Vehicle Detection: Utilizes YOLO (You Only Look Once) object detection with OpenCV to detect vehicles in video frames.
-## Tracking: Tracks vehicles across frames to determine entry and exit times.
-## Occupancy Calculation: Calculates the duration of vehicle occupancy based on entry and exit times.
-## Streamlit Interface: Provides an intuitive web-based interface powered by Streamlit for easy interaction and visualization of results.
-## Report Generation: Generates detailed reports including vehicle IDs, entry times, exit times, and occupancy durations.
+## Vehicle Detection: 🚗
+Utilizes YOLO (You Only Look Once) object detection with OpenCV to detect vehicles in video frames.
+
+## Tracking: 🎯
+Tracks vehicles across frames to determine entry and exit times.
+
+## Occupancy Calculation: ⏱️
+Calculates the duration of vehicle occupancy based on entry and exit times.
+
+## Streamlit Interface: 🖥️
+Provides an intuitive web-based interface powered by Streamlit for easy interaction and visualization of results.
+
+## Report Generation: 📊
+Generates detailed reports including vehicle IDs, entry times, exit times, and occupancy durations.
 
 # Installation
 ## Clone the repository:
