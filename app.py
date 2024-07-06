@@ -94,6 +94,10 @@ def generate_report():
     df = pd.DataFrame(data, columns=['Vehicle', 'Entry Time', 'Exit Time', 'Occupancy Time'])
     return df
 
+
+
+
+
 # Streamlit interface
 st.title("Vehicle Occupancy Analysis 🚗📊")
 
@@ -106,7 +110,7 @@ footer = """
 
 st.markdown(footer, unsafe_allow_html=True)
 
-uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi"])
+uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi","mkv"])
 
 if uploaded_file is not None:
     video_path = os.path.join("uploads", uploaded_file.name)
