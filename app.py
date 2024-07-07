@@ -63,7 +63,6 @@ def detect_vehicles(frame):
                 boxes.append([x, y, w, h])
                 confidences.append(float(confidence))
                 class_ids.append(class_id)
-
     indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
     vehicles = []
 
@@ -73,6 +72,7 @@ def detect_vehicles(frame):
             vehicles.append((x, y, w, h))
 
     return vehicles
+
 
 
 # Function to track vehicles
