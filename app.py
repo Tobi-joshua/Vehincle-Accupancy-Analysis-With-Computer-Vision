@@ -4,6 +4,23 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from datetime import date
+import urllib.request
+
+
+# Function to download YOLO files
+def download_yolo_files():
+    yolo_weights_url = "https://pjreddie.com/media/files/yolov3.weights"
+    yolo_cfg_url = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg"
+
+    if not os.path.exists("yolov3.weights"):
+        urllib.request.urlretrieve(yolo_weights_url, "yolov3.weights")
+
+    if not os.path.exists("yolov3.cfg"):
+        urllib.request.urlretrieve(yolo_cfg_url, "yolov3.cfg")
+
+
+# Download YOLO files
+download_yolo_files()
 
 # Create 'uploads' directory if it doesn't exist
 if not os.path.exists('uploads'):
@@ -16,6 +33,7 @@ output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
 # Dictionary to hold vehicle times
 vehicle_times = {}
+
 
 # Function to detect vehicles in a frame
 def detect_vehicles(frame):
@@ -54,6 +72,7 @@ def detect_vehicles(frame):
 
     return vehicles
 
+
 # Function to track vehicles
 def detect_and_track_vehicles(frame, frame_id):
     detected_vehicles = detect_vehicles(frame)
@@ -63,6 +82,7 @@ def detect_and_track_vehicles(frame, frame_id):
             vehicle_times[vehicle] = {'entry': frame_id, 'exit': None}
         else:
             vehicle_times[vehicle]['exit'] = frame_id
+
 
 # Function to process video
 def process_video(video_path):
@@ -80,6 +100,7 @@ def process_video(video_path):
 
     cap.release()
 
+
 # Function to generate report
 def generate_report():
     data = []
@@ -95,22 +116,10 @@ def generate_report():
     return df
 
 
-
-
-
 # Streamlit interface
 st.title("Vehicle Occupancy Analysis 🚗📊")
 
-# Footer with your name and current date
-footer = """
-<footer style="position: fixed; left: 0; bottom: 0; width: 100%; background-color: #f0f0f0; text-align: center; padding: 10px;">
-    <p>Done by Joshua Samuel | {}</p>
-</footer>
-""".format(date.today().strftime("%B %d, %Y"))
-
-st.markdown(footer, unsafe_allow_html=True)
-
-uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi","mkv"])
+uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi"])
 
 if uploaded_file is not None:
     video_path = os.path.join("uploads", uploaded_file.name)
@@ -132,3 +141,16 @@ if uploaded_file is not None:
             file_name='occupancy_report.csv',
             mime='text/csv',
         )
+
+        # Debugging output
+        st.text(f"Detected Vehicles: {len(vehicle_times)}")
+        st.text(f"Vehicle Times: {vehicle_times}")
+
+# Footer with your name and current date
+footer = """
+<footer style="position: fixed; left: 0; bottom: 0; width: 100%; background-color: #f0f0f0; text-align: center; padding: 10px;">
+    <p>Done by Joshua Samuel | {}</p>
+</footer>
+""".format(date.today().strftime("%B %d, %Y"))
+
+st.markdown(footer, unsafe_allow_html=True)
