@@ -13,10 +13,12 @@ def download_yolo_files():
     yolo_cfg_url = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg"
 
     if not os.path.exists("yolov3.weights"):
-        urllib.request.urlretrieve(yolo_weights_url, "yolov3.weights")
+        with st.spinner('Downloading YOLO weights...'):
+            urllib.request.urlretrieve(yolo_weights_url, "yolov3.weights")
 
     if not os.path.exists("yolov3.cfg"):
-        urllib.request.urlretrieve(yolo_cfg_url, "yolov3.cfg")
+        with st.spinner('Downloading YOLO config...'):
+            urllib.request.urlretrieve(yolo_cfg_url, "yolov3.cfg")
 
 
 # Download YOLO files
@@ -46,8 +48,8 @@ def detect_vehicles(frame):
     confidences = []
     boxes = []
 
-    for out in outs:
-        for detection in out:
+    for output in outs:
+        for detection in output:
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
@@ -129,18 +131,22 @@ if uploaded_file is not None:
     st.video(video_path)
 
     if st.button("Process Video"):
-        process_video(video_path)
-        df = generate_report()
+        with st.spinner('Processing video...'):
+            process_video(video_path)
+            df = generate_report()
 
-        st.dataframe(df)
+            if not df.empty:
+                st.dataframe(df)
 
-        csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Download CSV 📥",
-            data=csv,
-            file_name='occupancy_report.csv',
-            mime='text/csv',
-        )
+                csv = df.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label="Download CSV 📥",
+                    data=csv,
+                    file_name='occupancy_report.csv',
+                    mime='text/csv',
+                )
+            else:
+                st.warning("No vehicles detected in the video.")
 
         # Debugging output
         st.text(f"Detected Vehicles: {len(vehicle_times)}")
